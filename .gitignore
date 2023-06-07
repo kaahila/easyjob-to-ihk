@@ -1,0 +1,8 @@
+documents/*
+generator.rar
+data/*
+.idea
+dist
+build
+*.spec
+*.rar
