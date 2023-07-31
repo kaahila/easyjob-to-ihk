@@ -270,5 +270,5 @@ def setupBrowser():
     options.add_experimental_option("excludeSwitches", ["enable-automation", 'enable-logging'])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(options=options, service=Service(ChromeDriverManager().install()))
+    driver = webdriver.Chrome(options=options, service=Service(ChromeDriverManager(version="114.0.5735.90").install()))
     return Browser(driver)
