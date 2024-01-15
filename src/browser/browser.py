@@ -1,8 +1,6 @@
 import time
 from getpass import getpass
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from src.config import EASYJOB_SETTINGS, DEBUG, DATA_PATH, IHK_SETTINGS, AUSBILDUNGSABSCHNITT, BETREUEREMAIL
 from selenium.webdriver.common.by import By
@@ -81,23 +79,23 @@ class Browser:
             row_id = row.get_attribute("id")
             row_num = re.search("\d{1,}", row_id).group(0)
             data['Datum'].append(
-                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C181").get_attribute('innerHTML')[:6] + '20' +
-                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C181").get_attribute('innerHTML')[6:])
+                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C185").get_attribute('innerHTML')[:6] + '20' +
+                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C185").get_attribute('innerHTML')[6:])
             data['Mitarbeiter'].append(
-                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C245").get_attribute(
+                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C250").get_attribute(
                     'innerHTML'))
             try:
-                data['Leistung'].append(self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C246C3C103", time=1, should_exit=False).get_attribute('innerHTML').strip())
+                data['Leistung'].append(self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C251C3C106", time=1, should_exit=False).get_attribute('innerHTML').strip())
             except Exception:
                 data['Leistung'].append(
                     self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C246C1C251").get_attribute('innerHTML').strip())
 
             data['Bezeichnung'].append(
-                self.find_element(by=By.ID, value=f"eDVDDR{row_num}C247").get_attribute(
+                self.find_element(by=By.ID, value=f"eDVDDR{row_num}C252").get_attribute(
                     'innerHTML'))
             data['Anzahl'].append(
-                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C175").get_attribute('innerHTML'))
-            description_element = self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C248C0C179")
+                self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C179").get_attribute('innerHTML'))
+            description_element = self.find_element(by=By.ID, value=f"eDVCellDDR{row_num}C253C0C183")
             try:
                 description = cleanhtml(description_element.find_element(by=By.TAG_NAME, value="div").get_attribute('innerHTML'))
             except Exception:
@@ -270,5 +268,5 @@ def setupBrowser():
     options.add_experimental_option("excludeSwitches", ["enable-automation", 'enable-logging'])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(options=options, service=Service(ChromeDriverManager(version="114.0.5735.90").install()))
+    driver = webdriver.Chrome(options=options)
     return Browser(driver)
